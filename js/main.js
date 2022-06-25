@@ -75,6 +75,7 @@ async function NowMovie(URL) {
 
 
 async function getData(URL) {
+
   // const myResponse = await fetch("https://api.themoviedb.org/3/movie/" + URL + "?api_key=eba8b9a7199efdcb0ca1f96879b83c44")
   const myResponse = await fetch("https://api.themoviedb.org/3/search/movie?query=" + URL + "&api_key=eba8b9a7199efdcb0ca1f96879b83c44")
   let responseData = await myResponse.json();
@@ -85,10 +86,10 @@ async function getData(URL) {
 
 function displayData() {
   var temp = ``;
-  for (var i = 0; i < allData.length; i++) {
+  for (var i = 0; i < allData.length; i++) {   
     temp += `
         <div class="col-md-6 col-lg-4 my-3">
-          <div class="movieShow ">
+          <div class="movieShow">
             <div class="movieDiv">
                 <img src="https://image.tmdb.org/t/p/w500`+ allData[i].poster_path + `" class="img-fluid"/>
                 <div class="movieLayer d-flex align-items-center">
@@ -96,6 +97,7 @@ function displayData() {
                         <h5>`+ allData[i].original_title + `</h5>
                         <p>`+ allData[i].overview + `</p>
                         <p> Rate: `+ allData[i].vote_average + `</p>
+                        <button class="btn btn-light movie" onclick="getmovie(`+ allData[i].id + `)">trial</button>
                     </div>
                 </div>
              </div>
@@ -109,10 +111,11 @@ function displayData() {
 function searchMovie(term) {
   var temp = ``;
   for (var i = 0; i < allData.length; i++) {
+
     if (allData[i].original_title.toLowerCase().includes(term.toLowerCase())) {
       temp += `
       <div class="col-md-6 col-lg-4 my-3">
-        <div class="movieShow ">
+        <div class="movieShow">
           <div class="movieDiv">
               <img src="https://image.tmdb.org/t/p/w500`+ allData[i].poster_path + `" class="img-fluid"/>
               <div class="movieLayer d-flex align-items-center">
@@ -120,6 +123,7 @@ function searchMovie(term) {
                       <h5>`+ allData[i].original_title + `</h5>
                       <p>`+ allData[i].overview + `</p>
                       <p> Rate: `+ allData[i].vote_average + `</p>
+                      <button class="btn btn-light movie" type="button" onclick="getmovie(`+ allData[i].id + `)">trial</button>
                   </div>
               </div>
            </div>
@@ -220,3 +224,21 @@ $('#subBtn').click(function (e) {
     return false;
   }
 });
+
+
+
+
+async function getmovie(id) {
+  console.log(id);
+  const myResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=eba8b9a7199efdcb0ca1f96879b83c44&language=en-US`)
+  let responsemovie = await myResponse.json();
+
+$("#cartoonVideo").attr("src", "https://www.youtube.com/embed/"+responsemovie.results[responsemovie.results.length-1].key);
+
+
+  $('#Trial').modal('show');
+
+
+}
+
+

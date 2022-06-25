@@ -282,3 +282,9 @@ body {
     border-bottom: 1px solid grey;
     box-shadow:none !important;
 }
+
+.modal-dialog iframe{
+    margin: 0 auto;
+    display: block;
+}
+
